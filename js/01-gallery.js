@@ -31,5 +31,5 @@ gallery.addEventListener('click', e => {
 
 
 
-console.log(galleryItemsHTML);
+
 console.log(galleryItems);
