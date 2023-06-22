@@ -1,41 +1,35 @@
 import { galleryItems } from './gallery-items.js';
 // Change code below this line
 
+const gallery = document.querySelector('.gallery');
+
+const galleryItemsHTML = galleryItems.map(item => `
+<li class="gallery-item">
+  <a class="gallery-link" href="${item.original}">
+    <img class="gallery-image" 
+    src="${item.preview}" 
+    data-source="${item.original}" 
+    alt="${item.description}" />
+  </a>
+</li>
+`).join('');
 
 
-const list = document.querySelector('.gallery')
+gallery.innerHTML = galleryItemsHTML;
 
-list.insertAdjacentHTML('beforeend', createMarkupItems(galleryItems));
-list.addEventListener('click', handlerClickItem);
 
-function createMarkupItems(Item) {
-    return Item.map(({ preview, original, description }) => `
-    <li class="gallery-item">
-    <a class="gallery-link" href="${original}">
-      <img
-        class="gallery-image"
-        src="${preview}"
-        data-source="${original}"
-        alt="${description}"
-      />
-    </a>
-  </li>`).join('')
-}
-function handlerClickItem(evt) {
-    const cardItem = evt.target.closest('.gallery-item');
-    if (evt.target.classList.contains('js-add')) {
-        const obj = findCarItem(cardItem);
-        const instance = basicLightbox.create(createAddToCartMarkup(obj));
-        instance.show();
-    } else if (cardItem) { //evt.target !== evt.currentTarget
-        const obj = findCarItem(cardItem);
-        const instance = basicLightbox.create(createDetailInfoMarkup(obj));
-        instance.show();
-    }
-}
+gallery.addEventListener('click', e => {
+  e.preventDefault();
+
+  
+  if (e.target.tagName === 'IMG') {
+    const source = e.target.dataset.source;
+    const lightbox = basicLightbox.create(`<img src="${source}">`);
+    lightbox.show();
+  }
+});
 
 
 
-console.log(Item);
-
+console.log(galleryItemsHTML);
 console.log(galleryItems);
