@@ -3,41 +3,33 @@ import { galleryItems } from './gallery-items.js';
 
 const gallery = document.querySelector('.gallery');
 
+
 galleryItems.forEach(item => {
-  const galleryItem = document.createElement('a');
-  galleryItem.href = item.original;
-  galleryItem.innerHTML = `<img class="gallery__image" src="${item.preview}" alt="${item.description}" />`;
+  const galleryItem = document.createElement('li');
+  galleryItem.classList.add('gallery__item');
+  
+  const link = document.createElement('a');
+  link.classList.add('gallery__link');
+  link.href = item.original;
+  
+  const image = document.createElement('img');
+  image.classList.add('gallery__image');
+  image.src = item.preview;
+  image.alt = item.description;
+
+  link.appendChild(image);
+  galleryItem.appendChild(link);
   gallery.appendChild(galleryItem);
 });
 
 
-
-const lightbox = new SimpleLightbox('.gallery a', {
-    captions: true,               
-    captionDelay: 250,            
-    captionSelector: 'img',       
-    captionType: 'attr',          
-    captionPosition: 'bottom',    
-    captionAttribute: 'alt'     
-  });
-
-
-lightbox.refresh();
-
-gallery.addEventListener('click', e => {
-  e.preventDefault();
-  if (e.target.tagName === 'IMG') {
-    
-    lightbox.open();
-  }
+new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+  captionPosition: 'bottom',
+  captionDelay: 250
 });
 
 console.log(galleryItems);
-
-
-
-
-
 
 
 
